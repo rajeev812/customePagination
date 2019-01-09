@@ -1,0 +1,247 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@model SchoolApp.Entity.Student
+@Html.HiddenFor(m => m.SchoolsName)
+@Html.HiddenFor(m => m.SchooldId)
+@if (TempData["Message"] != null)
+            {
+    <div class="alert alert-danger" role="alert">
+        <button class="close" data-dismiss="alert" type="button">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <strong>Opps! </strong>
+        @TempData["Message"]
+    </div>
+}
+<div class="col-md-5 extnd">
+    @using (Html.BeginForm("Index", "Student", null, FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.SchoolsChildName)
+        <div class="col-md-12 personal-info">
+
+            <div class="form-group">
+                <br>
+                <label class="col-lg-4 control-label">School Name</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @Html.DropDownListFor(m => m.SchooldId, new SelectList(Model.schoolName, "Key", "Value"), "Select", new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.SchooldId)</div>
+                </div>
+            </div>
+            <div class="form-group1">
+                <br>
+                <label class="col-lg-4 control-label">Main Branch</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+
+                        <div class="col-lg-4">
+                            <label class="col-lg-4 control-label" style="padding-right:35px;">Yes</label>
+                            @Html.RadioButtonFor(m => m.IsBranch, "False")
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label class="col-lg-4 control-label" style="padding-right:35px;">No</label>
+                            @Html.RadioButtonFor(m => m.IsBranch, "True")
+                        </div>
+                    </div>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.IsBranch)</div>
+                </div>
+            </div>
+            <div class="form-group hidden"id="Schoolbranch">
+                <br>
+                <label class="col-lg-4 control-label">Branch School Name</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        <select id="SchooldChildId" name="SchooldChildId" class="form-control"><option value="0">Select Branch School</option></select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <br>
+                <label class="col-lg-4 control-label">Add Student</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.StudentName, new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.StudentName)</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <br>
+                <label class="col-lg-4 control-label">Student Registration No</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.StudentRegNumber, new { @class = "form-control" })
+
+                    </div>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.StudentRegNumber)</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 personal-info">
+
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Add Class</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.AddCls, new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(m => m.AddCls)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 personal-info">
+
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Father Name</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(m => m.FatherName)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Father Mobile</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.FatherMobileNo, new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(m => m.FatherMobileNo)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Mother Name</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.MotherName, new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(m => m.MotherName)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Mother Mobile</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.MotherMobileNo, new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(m => m.MotherMobileNo)
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Email</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(m => m.EmailId)
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <label class="col-lg-4 control-label"></label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        <input type="submit" class="btn btn-primary" value="Submit" style="margin-bottom: 15px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[type=radio][name=IsBranch]').change(function () {
+            if (this.value == "True") {
+                $('#Schoolbranch').removeClass('hidden')
+            }
+            else if (this.value == "False") {
+                $('#Schoolbranch').addClass('hidden')
+            }
+        });
+        $('#SchooldId').change(function () {
+            var selectedVal = this.value;
+            $("#SchoolsName").val(this.options[this.selectedIndex].text);
+            $.ajax({
+                type: "GET",
+                url: 'Student/GetBranchSchool',
+                data: { "SchoolId": parseInt(selectedVal, 10) },
+                dataType: "json",
+                contentType: "application/json",
+                success: function (res) {
+                    debugger
+                    if (res.length > 0) {
+                        $.each(res, function (data, value) {
+                            $("#SchooldChildId").append($("<option></option>").val(value.SchooldChildId).html(value.SchoolsChildName));
+                        })
+                    } else {
+                        $("#Schoolbranch").addClass('hidden');
+                        alert('Parent school having no branch assinged')
+                    }
+
+                }
+
+            });
+        })
+            
+    });
+</script>
+
+
+<div class="col-md-1 extnd">
+</div>
+
+
+@Html.Partial("_BulkUpload", Model)
+

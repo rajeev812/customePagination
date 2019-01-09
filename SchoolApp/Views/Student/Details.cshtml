@@ -1,0 +1,246 @@
+﻿
+@{
+    ViewBag.Title = "Student Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@model SchoolApp.Entity.Student
+@Html.HiddenFor(m => m.SchooldId)
+@Html.HiddenFor(m => m.SchooldChildId)
+<style>
+    .panel-body {
+        padding: 15px;
+        background-color: hsla(301, 26%, 38%, 0.6784313725490196);
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+
+                <thead style="text-align:center;">
+                    <tr>
+                        <th>Student Name</th>
+                        <th>School Name</th>
+                        <th>Mobile</th>
+                        @*<th class="tbhd">End Time</th>*@
+                        <th>Search</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text"  id="StName" placeholder="Student Name" class="form-control"></td>
+                        <td>
+                            <select id="SchName" name="SchName" class="form-control"><option value="0">Select Branch School</option></select>
+                            @*<input type="text" id="SchName" placeholder="School Name" class="form-control">*@
+                        </td>
+                        <td><input type="text" id="MobileNo" placeholder="Mobile" class="form-control"></td>
+                        <td><input type="button" id="StudnetSrchBtn" value="Search" class="btn btn-primary"></td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div><!--end of .table-responsive-->
+    </div>
+</div>
+<section id="gridContent">
+    <div class="container1">
+        <div id="custom_panel">
+            <div>
+                <div class="row" id="headerContent">
+                   
+                    <div class="row">
+                        <div style="clear:both; margin-left:2.5%;">
+                            <a target="_blank" href=@Url.Action("Print", "Student")><span class="glyphicon glyphicon-print">&nbsp;PDF</span></a> | <a target="_blank" href=@Url.Action("DownloadExcelStudent", "Student")><span class="glyphicon glyphicon-print">&nbsp;Excel</span></a>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive" style="overflow:scroll">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr class="table-heading table-header-main">
+                                        <th style="min-width:100px;"><div class="relative"><div>Action </div></div></th>
+                                        <th style="min-width:80px;"><div class="relative"><div>Sl No </div></div></th>
+                                        <th style="min-width:130px;"><div class="relative"><div>@Html.DisplayNameFor(m => m.StudentName) </div></div></th>
+                                        <th style="min-width:130px;"><div class="relative"><div>Class </div></div></th>
+                                        <th style="min-width:130px;"><div class="relative"><div>@Html.DisplayNameFor(m => m.FatherName) </div></div></th>
+                                        <th style="min-width:130px;"><div class="relative"><div>@Html.DisplayNameFor(m => m.FatherMobileNo) </div></div></th>
+                                        <th style="min-width:130px;"><div class="relative"><div>@Html.DisplayNameFor(m => m.MotherName) </div></div></th>
+                                        <th style="min-width:130px;"><div class="relative"><div>@Html.DisplayNameFor(m => m.MotherMobileNo) </div></div></th>
+                                        <th style="min-width:150px;"><div class="relative"><div>Email </div></div></th>
+                                        <th style="min-width:230px;"><div class="relative"><div>School Name </div></div></th>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div id="ajaxLoader" class="hidden">
+                                <img src="~/Content/images/ajax_loader.gif" alt="Loading..." style="position:absolute;top:40%; margin-left:50%" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <section id="pagingNavigation">
+                    <div class="row" style="padding-bottom:20px">
+                        <section id="paging">
+                            <input id="pageSize" type="hidden" name="pageSize" />
+                            <input id="currentPage" type="hidden" name="currentPage" />
+                            <style>
+                                .td-paging {
+                                    padding-right: 10px;
+                                }
+                            </style>
+                        </section>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-3" style="font-size:13px;">
+                            <span id="pagingDetails">
+
+                            </span>
+                        </div>
+                        <div class="col-sm-7 text-right">
+                            <div class="paging_simple_numbers">
+                                <ul id="pagingButtons" class="pagination" style="margin:0;"></ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 text-right" style="font-size:13px;">
+                            <span>Show</span>
+                            <select id="gridmemberCount" style="background-color:#563c559e;">
+                                <option value="2">2</option>
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="1000">1000</option>
+                            </select>
+                            <span>entries</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="popupSelection">
+    <div class="modal" id="EditModelPopup" data-backdrop="static">
+        <div class="modal-dialog modal-sm" style="width: 900px;top:10%; right:10%;left:10%">
+            <div class="modal-content">
+                <div class="modal-body" style="padding:0;margin:0;">
+                    <div id="custom_panel" class="panel panel-default" style="margin-bottom:0;">
+                        <div class="panel-heading">
+                            Edit Student Records
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="panel-body">
+                            <input type="hidden" id="StudentId" />
+                            @*<input type="hidden" id="StudentRegNo" />*@
+                            <div class="row form-group input-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Student Name</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="StudentName" class="form-control" />
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Registeration</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="StudentRegisteration" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group input-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Class</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="StudentClass" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Email ID</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="StudentEmailID" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group input-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Father Name</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="StudentFatherName" class="form-control timepicker1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Father Mobile</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="StudentFatherMobile" class="form-control timepicker1" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group input-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Mother Name</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="StudentMotherName" class="form-control timepicker1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Mother Mobile</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="StudentMotherMobile" class="form-control timepicker1" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                </div>
+                                <div class="col-sm-4 text-center" style="padding-top:20px;">
+                                    <button type="button" id="EditSubmit" class="btn btn-default" data-dismiss="modal">Update</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts{
+    @*@Scripts.Render("~/bundles/jquery")*@
+    <script src="~/Scripts/App/Paging.js"></script>
+    <script src="~/Scripts/App/Student.js"></script>
+}

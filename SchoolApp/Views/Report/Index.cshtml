@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+
+                <thead style="text-align:center;">
+                    <tr>
+                        <th class="tbhd">School Name</th>
+                        <th class="tbhd">Address</th>
+                        <th class="tbhd">Start Time</th>
+                        <th class="tbhd">End Time</th>
+                        <th class="tbhd">Search</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <select class="form-control">
+                                <option value="one">School One</option>
+                                <option value="two">School Two</option>
+                                <option value="three">School Three</option>
+                                <option value="four">School Four</option>
+                                <option value="five">School Five</option>
+                            </select>
+                        </td>
+
+                        <td><input type="text"></td>
+                        <td><input type="text" placeholder="00.00 AM"></td>
+                        <td><input type="text" placeholder="00.00 PM"></td>
+                        <td><input type="text" placeholder="Search.."></td>
+                    </tr>
+
+
+
+                </tbody>
+
+            </table>
+        </div><!--end of .table-responsive-->
+    </div>
+</div>

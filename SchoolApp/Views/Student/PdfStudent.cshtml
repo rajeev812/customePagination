@@ -1,0 +1,77 @@
+﻿@model List<SchoolApp.Entity.Student>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PDF</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    
+    <table class="table table-bordered">
+        <tr>
+            <th>Student Name</th>
+            <th>Registration No.</th>
+            <th>Class</th>
+            <th>Father Name</th>
+            <th>Mother Name</th>
+            <th>Father Mobile</th>
+            <th>Mother Mobile</th>
+            <th>Email</th>
+            <th>School Name</th>
+        </tr>
+    @{
+        if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentRegNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddCls)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FatherName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MotherName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FatherMobileNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MotherMobileNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailId)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SchoolsName)
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+        <th colspan="9" class="text-center ">No Records</th>
+        </tr>
+        }
+    }
+    
+    
+    </table>
+</body>
+</html>

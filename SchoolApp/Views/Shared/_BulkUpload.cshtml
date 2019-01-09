@@ -1,0 +1,110 @@
+﻿@model SchoolApp.Entity.Student
+@using (Html.BeginForm("UploadExcel", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="col-md-5 extnd">
+
+    <h4 class="text-center">Bulk Upload</h4>
+
+    <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <br>
+                <label class="col-lg-4 control-label">School Name:</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @Html.DropDownListFor(m => m.SchooldId, new SelectList(Model.schoolName, "Key", "Value"), "Select", new { @class = "form-control",id= "SchooldIdexl" })
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="form-group1">
+        <br>
+        <label class="col-lg-4 control-label">Main Branch</label>
+        <div class="col-lg-8">
+            <div class="form-group input-group">
+                @*<input class="form-control" type="text" value="">*@
+
+                <div class="col-lg-4">
+                    <label class="col-lg-4 control-label" style="padding-right:35px;">Yes</label>
+                    @Html.RadioButtonFor(m => m.IsBranchExl, "False")
+                </div>
+
+                <div class="col-lg-4">
+                    <label class="col-lg-4 control-label" style="padding-right:35px;">No</label>
+                    @Html.RadioButtonFor(m => m.IsBranchExl, "True")
+                </div>
+            </div>
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.IsBranch)</div>
+        </div>
+    </div>
+    <div class="form-group hidden" id="SchoolbranchExcel">
+        <br>
+        <label class="col-lg-4 control-label">Branch School Name</label>
+        <div class="col-lg-8">
+            <div class="form-group input-group">
+                <select id="SchooldChildIdExcel" name="SchooldChildId" class="form-control"><option value="0">Select Branch School</option></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <label class="col-lg-4 control-label"></label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="file" value="">*@
+                        <input type="file" id="FileUpload" name="FileUpload" class="" />
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+    <div class="col-md-12 personal-info">
+            <div class="form-group">
+                <label class="col-lg-4 control-label"></label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        <input type="submit" class="btn btn-primary" value="Bulk Upload" style="margin-bottom: 15px;">
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[type=radio][name=IsBranchExl]').change(function () {
+            if (this.value == "True") {
+                $('#SchoolbranchExcel').removeClass('hidden')
+            }
+            else if (this.value == "False") {
+                $('#SchoolbranchExcel').addClass('hidden')
+            }
+        });
+        $('#SchooldIdexl').change(function () {
+            var selectedVal = this.value;
+            $("#SchoolsName").val($(this).text());
+            $.ajax({
+                type: "GET",
+                url: 'Student/GetBranchSchool',
+                data: { "SchoolId": parseInt(selectedVal, 10) },
+                dataType: "json",
+                contentType: "application/json",
+                success: function (res) {
+                    debugger
+                    if (res.length > 0) {
+                        $.each(res, function (data, value) {
+                            $("#SchooldChildIdExcel").append($("<option></option>").val(value.SchooldChildId).html(value.SchoolsChildName));
+                        })
+                    } else {
+                        $("#SchoolbranchExcel").addClass('hidden');
+                        //alert('Parent school having no branch assinged')
+                    }
+
+                }
+
+            });
+        })
+    });
+</script>

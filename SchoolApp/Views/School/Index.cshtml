@@ -1,0 +1,158 @@
+﻿
+@{
+    ViewBag.Title = "Add-School";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@*<link href="~/Content/bootstrap-timepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-timepicker.min.js"></script>*@
+@model SchoolApp.Entity.School
+@if (TempData["Message"] != null)
+            {
+    <div class="alert alert-danger" role="alert">
+        <button class="close" data-dismiss="alert" type="button">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        @TempData["Message"]
+    </div>
+}
+<div class="container" id="formdiv">
+
+    @using (Html.BeginForm("Index", "School", null, FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+        <div class="col-md-12 personal-info">
+
+            <div class="form-group1">
+                <br>
+                <label class="col-lg-4 control-label">School Name</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+                        @Html.TextBoxFor(m => m.SchoolName, new { @class = "form-control" })
+                    </div>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.SchoolName)</div>
+                </div>
+            </div>
+
+            <div class="form-group1">
+                <br>
+                <label class="col-lg-4 control-label">Main Branch</label>
+                <div class="col-lg-8">
+                    <div class="form-group input-group">
+                        @*<input class="form-control" type="text" value="">*@
+
+                        <div class="col-lg-4">
+                            <label class="col-lg-4 control-label" style="padding-right:35px;">Yes</label>
+                            @Html.RadioButtonFor(m => m.IsHavingBranch, "False")
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label class="col-lg-4 control-label" style="padding-right:35px;">No</label>
+                            @Html.RadioButtonFor(m => m.IsHavingBranch, "True")
+                        </div>
+                    </div>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.IsHavingBranch)</div>
+                </div>
+            </div>
+
+            <div class="col-md-12 personal-info hidden" id="SchoolList">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Parent Branch</label>
+                    <div class="col-lg-8">
+                        <div class="form-group input-group">
+                            @*<input class="form-control" type="text" value="">*@
+                            @Html.DropDownListFor(m => m.SchoolId, new SelectList(Model.SchoolList, "Key", "Value"), "Select", new { @class = "form-control" })
+                        </div>
+                        <div class="text-danger">@Html.ValidationMessageFor(m => m.SchoolId)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 personal-info">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Address</label>
+                    <div class="col-lg-8">
+                        <div class="form-group input-group">
+                            @*<input class="form-control" type="text" value="">*@
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                        </div>
+                        <div class="text-danger">@Html.ValidationMessageFor(m => m.Address)</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 personal-info">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Phone</label>
+                    <div class="col-lg-8">
+                        <div class="form-group input-group">
+                            @*<input class="form-control" type="text" value="">*@
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                        </div>
+                        <div class="text-danger">@Html.ValidationMessageFor(m => m.Phone)</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 personal-info">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Active</label>
+                    <div class="col-lg-8">
+                        <div class="form-group input-group">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-control1" })
+                        </div>
+                        <div class="text-danger">@Html.ValidationMessageFor(m => m.IsActive)</div>
+                    </div>
+                </div>
+
+            </div>
+
+            @*<div class="col-md-12 personal-info">
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">End Time</label>
+                        <div class="col-lg-8">
+                            <div class="form-group input-group">
+                                @Html.TextBoxFor(m => m.Endtime, new { @class = "form-control timepicker1" })
+                            </div>
+                            <div class="text-danger">@Html.ValidationMessageFor(m => m.Endtime)</div>
+                        </div>
+                    </div>
+
+                </div>*@
+
+            <div class="col-md-12 personal-info">
+
+                <div class="form-group">
+                    <label class="col-lg-4 control-label"></label>
+                    <div class="col-lg-8">
+                        <div class="form-group input-group">
+                            <input type="submit" class="btn btn-primary" value="Submit" style="margin-bottom: 15px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    //$('.timepicker1').timepicker();
+    $(document).ready(function () {
+        $('input[type=radio][name=IsHavingBranch]').change(function () {
+            if (this.value == "True") {
+                $('#SchoolList').removeClass('hidden')
+            }
+            else if (this.value == "False") {
+                $('#SchoolList').addClass('hidden')
+            }
+        });
+    });
+</script>
+
+
+

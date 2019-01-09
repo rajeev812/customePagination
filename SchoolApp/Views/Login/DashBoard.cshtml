@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+}
+
+<link href="~/Content/Style1.css" rel="stylesheet" />
+
+<div class="container" id="dash">
+  <div class="row" style="margin-left:6%;">
+      @{
+          var User = Session["UserType"] as SchoolApp.Entity.User;
+          if (User.UserType == "Admin")
+          {
+            <a href=@Url.Action("Index","School")>
+                <div class="col-sm-3 one">
+                    <div class="col-sm-6 icon"><span class="glyphicon glyphicon-home" style="color:#ffffff"></span></div>
+                    <h2 class="heading">School</h2>
+
+                </div>
+            </a>
+          }
+    }
+ 
+
+<div class="col-sm-1 one"></div>
+    <a href=@Url.Action("Index","Student")> <div class="col-sm-3 two">
+    <div class="col-sm-6 icon"><span class="glyphicon glyphicon-user" style="color:#ffffff"></span></div>  
+<h2 class="heading">Student</h2>   
+</div></a>
+
+<div class="col-sm-1 one"></div>
+  
+     <a href=@Url.Action("Index","Report")><div class="col-sm-3 three">
+    <div class="col-sm-6 icon"><span class="glyphicon glyphicon-file" style="color:#ffffff"></span></div>  
+<h2 class="heading">Report</h2>
+</div></a>
+
+</div>
+</div>
